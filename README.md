@@ -1,6 +1,6 @@
 # Description
 
-Python script to add a *pingsubnet* command to Arista switches to send echo messages to a CIDR address.
+Python script to add a **pingsubnet** command to Arista switches to send echo messages to a CIDR address and print out a report.
 
 # Output
 
@@ -42,7 +42,8 @@ Hosts Online    9
 # Testing
 
 Copy file to /usr/lib/python2.7/site-packages/CliPlugin/
-If running EOS version 4.9+, issue *sudo killall FastClid-server* 
+
+If running EOS version 4.9+, issue **sudo killall FastClid-server** 
 
 # Installation
 
