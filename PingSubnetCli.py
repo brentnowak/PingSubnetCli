@@ -42,9 +42,11 @@ def doPing(network):
     print("Hosts Online\t" + str(livecounter))
     print("Hosts Offline\t" + str(offlinecounter))
 
+
 def doPingHost(ip):
     response = os.system("ping -c 2 -w1 " + str(ip) + " > /dev/null 2>&1")
     return response
+
 
 def getNetworks(mode):
     switch = Server("unix:/var/run/command-api.sock")
