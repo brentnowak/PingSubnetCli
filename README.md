@@ -2,6 +2,18 @@
 
 Python script to add a **pingsubnet** command to Arista switches to send echo messages to a CIDR address and print out a report.
 
+# Requirements
+
+EOS 4.14.5 or higher
+
+# Switch Configuration
+
+```text
+management api http-commands
+   protocol unix-socket
+   no shutdown
+```
+
 # Output
 
 ```text
