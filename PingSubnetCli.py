@@ -4,6 +4,7 @@ import BasicCli
 import CliParser
 import netaddr
 import time
+import sys
 import os
 
 from jsonrpclib import Server
@@ -21,12 +22,16 @@ def doPing(network):
     print("-----------------------------------------")
     for ip in cidr:
         if ip != cidr.network and ip != cidr.broadcast:     # Only hosts in CIDR
-            response = os.system("ping -c 2 -w1 " + str(ip) + " > /dev/null 2>&1")
+            response = doPingHost(ip)
             if response == 0:
-                print ip, "up"
+                output = str(ip) + " up\n"
+                sys.stdout.write(output)
+                sys.stdout.flush()
                 livecounter += 1
             else:
-                print ip, "down"
+                output = str(ip) + " down\n"
+                sys.stdout.write(output)
+                sys.stdout.flush()
                 offlinecounter +=1
     print("-----------------------------------------")
     print("CIDR\t\t" + str(cidr))
@@ -37,6 +42,9 @@ def doPing(network):
     print("Hosts Online\t" + str(livecounter))
     print("Hosts Offline\t" + str(offlinecounter))
 
+def doPingHost(ip):
+    response = os.system("ping -c 2 -w1 " + str(ip) + " > /dev/null 2>&1")
+    return response
 
 def getNetworks(mode):
     switch = Server("unix:/var/run/command-api.sock")
