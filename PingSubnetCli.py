@@ -6,6 +6,8 @@ import netaddr
 import time
 import os
 
+from jsonrpclib import Server
+
 tokenPing = CliParser.KeywordRule('pingsubnet', helpdesc='Send echo messages to a cidr address')
 
 
@@ -33,20 +35,33 @@ def doPing(network):
     print("Total Hosts\t" + str(cidr.size - 2))
     print("-----------------------------------------")
     print("Hosts Online\t" + str(livecounter))
-    print("Hosts Online\t" + str(offlinecounter))
+    print("Hosts Offline\t" + str(offlinecounter))
 
 
 def getNetworks(mode):
+    switch = Server("unix:/var/run/command-api.sock")
+    result = switch.runCmds(1, ["show ip interface brief"], "text")
+    result = result[0]['output']
+    result = result.split('\n')
+
+    networks = []
+
+    for row in result:
+        row = row.split()
+        if len(row) > 0:    # Error check for empty row
+            if row[1] != "unassigned":     # Check for assigned networks
+                if row[1] != "IP":
+                    networks.append(row[1])
+
     i = 0
-    results = ['172.16.1.4/28', '192.168.99.2/30', '172.16.0.1/32']
     print("-----------------------------------------")
     print("Network\t\tSubnet")
     print("-----------------------------------------")
-    for result in results:
-        print(str(i) + "\t\t" + results[i])
+    for network in networks:
+        print(str(i) + "\t\t" + network)
         i += 1
-    var = raw_input("\nEnter the network to ping (0-" + str(len(results) - 1) + "): ")
-    doPing(results[int(var)])
+    var = raw_input("\nEnter the network to ping (0-" + str(len(networks) - 1) + "): ")
+    doPing(networks[int(var)])
 
 
 BasicCli.EnableMode.addCommand((tokenPing, getNetworks))
