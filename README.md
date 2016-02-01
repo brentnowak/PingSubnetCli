@@ -6,14 +6,6 @@ Python script to add a **pingsubnet** command to Arista switches to send echo me
 
 EOS 4.14.5 or higher
 
-# Switch Configuration
-
-```text
-management api http-commands
-   protocol unix-socket
-   no shutdown
-```
-
 # Output
 
 ```text
@@ -59,4 +51,16 @@ If running EOS version 4.9+, issue **sudo killall FastClid-server**
 
 # Installation
 
-Copy file to /mnt/flash
+```text
+event-handler Boot-Cli
+   trigger on-boot
+   action bash sudo /mnt/flash/LoadPingSubnetCli.sh
+
+management api http-commands
+   protocol unix-socket
+   no shutdown
+```
+
+Copy the following files to /mnt/flash
+**LoadPingSubnetCli.sh**
+**PingSubnetCli.py**
