@@ -55,6 +55,7 @@ If running EOS version 4.9+, issue **sudo killall FastClid-server**
 event-handler Boot-Cli
    trigger on-boot
    action bash sudo /mnt/flash/LoadPingSubnetCli.sh
+   delay 60
 
 management api http-commands
    protocol unix-socket
