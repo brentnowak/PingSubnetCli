@@ -4,7 +4,7 @@ Python script to add a **pingsubnet** command to Arista switches to send echo me
 
 # Requirements
 
-EOS 4.14.5 or higher
+EOS 4.14.5 or higher.
 
 # Output
 
@@ -43,13 +43,16 @@ Hosts Online    5
 Hosts Online    9
 ```
 
-# Testing
-
-Copy file to /usr/lib/python2.7/site-packages/CliPlugin/
-
-If running EOS version 4.9+, issue **sudo killall FastClid-server** 
-
 # Installation
+
+Copy the following files to /mnt/flash on the switch:
+ 
+**LoadPingSubnetCli.sh**  
+**PingSubnetCli.py**  
+**netaddr-0.7.18.tar.gz** from https://pypi.python.org/pypi/netaddr  
+
+
+Add the following configuration statements:
 
 ```text
 event-handler Boot-Cli
@@ -62,6 +65,9 @@ management api http-commands
    no shutdown
 ```
 
-Copy the following files to /mnt/flash
-**LoadPingSubnetCli.sh**
-**PingSubnetCli.py**
+# Caveats
+
+If you do not want to reboot the device, perform the following steps to enable the **pingsubnet** commands:  
+
+Issue **sudo killall FastClid-server**  
+From /mnt/flash/netaddr-0.7.18 issue **sudo python setup.py install**  
