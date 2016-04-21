@@ -69,11 +69,11 @@ management api http-commands
 
 If you do not want to reboot the device, perform the following steps to enable the **pingsubnet** command:  
 
-```bash
-sudo killall FastClid-server
-```
-
 From /mnt/flash/netaddr-0.7.18
 ```bash
 sudo python setup.py install
   ```
+  
+  ```bash
+sudo killall FastClid-server
+```
